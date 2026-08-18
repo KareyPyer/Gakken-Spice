@@ -1,0 +1,37 @@
+* ============================================================
+* Kit No.87 - Générateur à courant alternatif (page 95)
+* Genere automatiquement par wiring_to_netlist.py - ne pas editer a la main
+* ============================================================
+
+.include lib/actifs.lib
+.include lib/passifs.lib
+.include lib/transducteurs.lib
+
+VIN plus 0 DC 12
+
+*--- Composants du montage
+XR1 plus b1 RFIX val=10k
+XR2 plus b2 RFIX val=10k
+XC1 c2 b1 CFIX val=0.05u
+XC2 c1 b2 CFIX val=0.1u
+QQ1 c1 b1 0 QKIT
+QQ2 c2 b2 0 QKIT
+XTR c1 plus c2 s1 s2 XTRFO
+XR3 s1 a RFIX val=4.7k
+XR4 a s2 RFIX val=4.7k
+XEAR s1 a ECOUT
+
+.ic V(b1)=0.65 V(c1)=0.2
+.tran 20u 2 UIC
+
+.control
+run
+let v_ear = v(s1) - v(a)
+meas tran freq_osc trig v(c1) val=6 rise=2 targ v(c1) val=6 rise=3
+plot v(c1) v(c2)
+plot v(s1) v(s2)
+plot v_ear
+wrdata out/earphone.txt v_ear
+.endc
+.end
+

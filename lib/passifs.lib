@@ -1,0 +1,34 @@
+* ============================================================
+* passifs.lib - composants passifs de la platine EX-SYSTEM
+* ============================================================
+* Convention de nommage des pins : 1, 2, ... dans l'ordre où ils
+* apparaissent physiquement sur le socle a ressorts, de gauche a
+* droite / haut en bas, tel que dessine dans le manuel.
+
+*--- Resistance fixe generique (les valeurs du kit : 1K, 4.7K, 10K, 100K...)
+*    pins: 1 2
+.subckt RFIX 1 2 val=10k
+R1 1 2 {val}
+.ends RFIX
+
+*--- Condensateur fixe generique (0.01 / 0.05 / 0.1 uF etc.)
+*    pins: 1 2
+.subckt CFIX 1 2 val=0.1u
+C1 1 2 {val}
+.ends CFIX
+
+*--- Photoresistance (cellule CdS) - approximee par une resistance
+*    controlee en tension (proxy pour "eclairement") faute de modele
+*    photometrique reel dans ngspice de base.
+*    pins: 1 2 ctrl   (ctrl = tension 0-5V representant l'eclairement,
+*                       0V = obscurite/haute impedance, 5V = pleine lumiere)
+.subckt LDR 1 2 ctrl rdark=1meg rlight=500
+Gldr 1 2 cur='(V(1,2)) / (rdark - (rdark-rlight)*V(ctrl)/5)'
+.ends LDR
+
+*--- Potentiometre / resistance variable
+*    pins: 1 2 wiper
+.subckt POT 1 2 wiper val=10k pos=0.5
+R1 1 wiper {val*pos}
+R2 wiper 2 {val*(1-pos)}
+.ends POT

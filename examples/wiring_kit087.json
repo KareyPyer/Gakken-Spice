@@ -1,0 +1,45 @@
+{
+  "title": "Kit No.87 - Générateur à courant alternatif (page 95)",
+  "manual_page": 95,
+  "battery": { "node_plus": "plus", "node_minus": "0", "voltage": 12 },
+
+  "instances": [
+    { "instance_id": "R1", "block_id": "r_10k",
+      "connections": { "1": "plus", "2": "b1" } },
+    { "instance_id": "R2", "block_id": "r_10k",
+      "connections": { "1": "plus", "2": "b2" } },
+
+    { "instance_id": "C1", "block_id": "c_0_05u",
+      "connections": { "1": "c2", "2": "b1" } },
+    { "instance_id": "C2", "block_id": "c_0_1u",
+      "connections": { "1": "c1", "2": "b2" } },
+
+    { "instance_id": "Q1", "block_id": "transistor_npn",
+      "connections": { "c": "c1", "b": "b1", "e": "0" } },
+    { "instance_id": "Q2", "block_id": "transistor_npn",
+      "connections": { "c": "c2", "b": "b2", "e": "0" } },
+
+    { "instance_id": "TR", "block_id": "transfo_exsystem",
+      "connections": { "c1": "c1", "ct": "plus", "c2": "c2", "s1": "s1", "s2": "s2" } },
+
+    { "instance_id": "R3", "block_id": "r_4_7k",
+      "connections": { "1": "s1", "2": "a" } },
+    { "instance_id": "R4", "block_id": "r_4_7k",
+      "connections": { "1": "a", "2": "s2" } },
+
+    { "instance_id": "EAR", "block_id": "ecouteur_cristal",
+      "connections": { "1": "s1", "2": "a" } }
+  ],
+
+  "simulation": {
+    "initial_conditions": { "V(b1)": "0.65", "V(c1)": "0.2" },
+    "tran_step": "20u",
+    "tran_stop": "2",
+    "measurements": [
+      "let v_ear = v(s1) - v(a)",
+      "meas tran freq_osc trig v(c1) val=6 rise=2 targ v(c1) val=6 rise=3"
+    ],
+    "plots": ["v(c1) v(c2)", "v(s1) v(s2)", "v_ear"],
+    "export_wav_signal": "v_ear"
+  }
+}

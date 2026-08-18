@@ -1,0 +1,36 @@
+* ============================================================
+* transducteurs.lib - blocs de transduction de la platine EX-SYSTEM
+* ============================================================
+
+*--- Transfo audio, primaire a point milieu (bloc utilise ex. page 95)
+*    pins: 1=c1  2=CT(+)  3=c2  4=s1  5=s2
+.subckt XTRFO 1 2 3 4 5
+L1 1 2 50m
+L2 2 3 50m
+L3 4 5 200m
+KXF L1 L2 L3 0.99
+CPAR 4 5 220p
+.ends XTRFO
+
+*--- Ecouteur cristal (la prise en bas de la platine, avec le
+*    petit bonhomme au casque)
+*    pins: 1 2
+.subckt ECOUT 1 2
+REAR 1 2 100k
+CEAR 1 2 10n
+.ends ECOUT
+
+*--- Moteur DC jouet (approxime en R + L serie + force contre-electromotrice
+*    negligee pour une premiere approximation electrique)
+*    pins: 1 2
+.subckt MOTORKIT 1 2 rint=15 lint=10m
+R1 1 a {rint}
+L1 a 2 {lint}
+.ends MOTORKIT
+
+*--- Buzzer piezo (approxime en capacite + resistance de fuite)
+*    pins: 1 2
+.subckt BUZZERKIT 1 2
+C1 1 2 20n
+R1 1 2 1meg
+.ends BUZZERKIT

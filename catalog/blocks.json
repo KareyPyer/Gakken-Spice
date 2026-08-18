@@ -1,0 +1,100 @@
+{
+  "blocks": [
+    {
+      "id": "r_10k",
+      "label": "Résistance 10K",
+      "category": "passif",
+      "source": "officiel",
+      "manual_page": 95,
+      "pins": ["1", "2"],
+      "subckt": "RFIX",
+      "subckt_file": "lib/passifs.lib",
+      "params": { "val": "10k" },
+      "constraints": { "vmax": 30, "polarity_sensitive": false }
+    },
+    {
+      "id": "r_4_7k",
+      "label": "Résistance 4.7K",
+      "category": "passif",
+      "source": "officiel",
+      "manual_page": 95,
+      "pins": ["1", "2"],
+      "subckt": "RFIX",
+      "subckt_file": "lib/passifs.lib",
+      "params": { "val": "4.7k" },
+      "constraints": { "vmax": 30, "polarity_sensitive": false }
+    },
+    {
+      "id": "c_0_05u",
+      "label": "Condensateur 0.05µF",
+      "category": "passif",
+      "source": "officiel",
+      "manual_page": 95,
+      "pins": ["1", "2"],
+      "subckt": "CFIX",
+      "subckt_file": "lib/passifs.lib",
+      "params": { "val": "0.05u" },
+      "constraints": { "vmax": 25, "polarity_sensitive": false }
+    },
+    {
+      "id": "c_0_1u",
+      "label": "Condensateur 0.1µF",
+      "category": "passif",
+      "source": "officiel",
+      "manual_page": 95,
+      "pins": ["1", "2"],
+      "subckt": "CFIX",
+      "subckt_file": "lib/passifs.lib",
+      "params": { "val": "0.1u" },
+      "constraints": { "vmax": 25, "polarity_sensitive": false }
+    },
+    {
+      "id": "transistor_npn",
+      "label": "Transistor NPN du kit",
+      "category": "actif",
+      "source": "officiel",
+      "manual_page": 95,
+      "pins": ["c", "b", "e"],
+      "subckt": "__MODEL_QKIT__",
+      "subckt_file": "lib/actifs.lib",
+      "constraints": { "vmax": 20, "polarity_sensitive": true }
+    },
+    {
+      "id": "transfo_exsystem",
+      "label": "Transformateur EX-SYSTEM (point milieu)",
+      "category": "transducteur",
+      "source": "officiel",
+      "manual_page": 95,
+      "pins": ["c1", "ct", "c2", "s1", "s2"],
+      "subckt": "XTRFO",
+      "subckt_file": "lib/transducteurs.lib",
+      "constraints": { "vmax": 30, "polarity_sensitive": true }
+    },
+    {
+      "id": "ecouteur_cristal",
+      "label": "Écouteur cristal",
+      "category": "transducteur",
+      "source": "officiel",
+      "manual_page": 95,
+      "pins": ["1", "2"],
+      "subckt": "ECOUT",
+      "subckt_file": "lib/transducteurs.lib",
+      "constraints": { "vmax": 25, "polarity_sensitive": false }
+    },
+    {
+      "id": "custom_led_flasher",
+      "label": "[EXEMPLE] Clignoteur LED communautaire",
+      "category": "actif",
+      "source": "communaute",
+      "manual_page": null,
+      "pins": ["in_plus", "in_moins", "out"],
+      "subckt": "XFLASH",
+      "subckt_file": "lib/community/flasher.lib",
+      "constraints": {
+        "vmax": 15,
+        "polarity_sensitive": true,
+        "forbidden_direct_links": [["in_plus", "in_moins"]]
+      }
+    }
+  ]
+}

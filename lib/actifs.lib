@@ -1,0 +1,14 @@
+* ============================================================
+* actifs.lib - composants actifs de la platine EX-SYSTEM
+* ============================================================
+
+*--- Transistor NPN generique du kit (calibre sur le comportement
+*    observe dans les montages du manuel, pas une piece precise)
+.model QKIT NPN(IS=1e-14 BF=200 BR=10 CJE=12p CJC=8p TF=0.5n TR=50n)
+
+*--- Diode generique (redressement / DEL sans le modele optique)
+.model DKIT D(IS=1e-14 N=1.5 RS=1)
+
+*--- LED (approximee comme une diode avec seuil ~1.8-2V, sans emission
+*    lumineuse simulee - utile seulement pour la partie electrique)
+.model LEDKIT D(IS=1e-20 N=2 RS=5 BV=5)

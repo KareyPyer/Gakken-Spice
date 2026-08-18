@@ -1,0 +1,69 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "EX-SYSTEM Denshi Block",
+  "description": "Description d'un bloc physique (officiel ou communautaire) de la platine EX-SYSTEM, utilisable dans un fichier de câblage.",
+  "type": "object",
+  "required": ["id", "label", "category", "pins", "subckt", "subckt_file"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^[a-z][a-z0-9_]*$",
+      "description": "Identifiant unique, snake_case."
+    },
+    "label": {
+      "type": "string",
+      "description": "Nom lisible, tel qu'il apparaît dans le manuel ou proposé par la communauté."
+    },
+    "category": {
+      "type": "string",
+      "enum": ["passif", "actif", "capteur", "transducteur", "affichage", "alimentation", "autre"]
+    },
+    "source": {
+      "type": "string",
+      "enum": ["officiel", "communaute"],
+      "default": "communaute"
+    },
+    "manual_page": {
+      "type": ["integer", "null"],
+      "description": "Numéro de page du manuel si c'est un bloc officiel, sinon null."
+    },
+    "pins": {
+      "type": "array",
+      "items": { "type": "string" },
+      "minItems": 1,
+      "description": "Noms des pins dans l'ordre attendu par le subckt SPICE."
+    },
+    "subckt": {
+      "type": "string",
+      "description": "Nom du subcircuit SPICE (ex: XTRFO, RFIX)."
+    },
+    "subckt_file": {
+      "type": "string",
+      "description": "Chemin relatif vers le fichier .lib contenant le subckt."
+    },
+    "params": {
+      "type": "object",
+      "description": "Paramètres par défaut passés au subckt (ex: {\"val\": \"10k\"}).",
+      "additionalProperties": true
+    },
+    "constraints": {
+      "type": "object",
+      "properties": {
+        "vmax": { "type": "number", "description": "Tension maximale admissible entre deux pins, en volts." },
+        "polarity_sensitive": { "type": "boolean", "default": false },
+        "forbidden_direct_links": {
+          "type": "array",
+          "description": "Paires de pins qui ne doivent jamais être reliées directement (court-circuit connu).",
+          "items": {
+            "type": "array",
+            "items": { "type": "string" },
+            "minItems": 2,
+            "maxItems": 2
+          }
+        }
+      },
+      "additionalProperties": false
+    }
+  },
+  "additionalProperties": false
+}
